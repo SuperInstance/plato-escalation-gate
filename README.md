@@ -68,6 +68,13 @@ else:
 print(f"Model size: {gate.param_count} params ({gate.size_bytes} bytes)")
 ```
 
+## Related
+
+- **[plato-room-intelligence](https://github.com/SuperInstance/plato-room-intelligence)** — Multi-head room model with provenance
+- **[plato-model-ocean](https://github.com/SuperInstance/plato-model-ocean)** — Evolving ecosystem of micro models
+- **[plato-training](https://github.com/SuperInstance/plato-training)** — Micro model training pipeline
+- **[ASSEMBLY-GUIDE](https://github.com/SuperInstance/plato-training/blob/master/ASSEMBLY-GUIDE.md)** — Full ecosystem assembly guide (Pattern 1: Escalation Gate)
+
 ## License
 
 MIT
