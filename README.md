@@ -1,0 +1,73 @@
+# plato-escalation-gate
+
+Tiny escalation decision gate — 737 parameters (4KB), WASM-ready.
+
+A binary classifier that decides whether a situation requires escalation to a
+higher-level agent or model. Designed for PLATO fleet rooms where micro-models
+need to know when to call for help.
+
+## Architecture
+
+```
+Input (5) → Linear(32) → ReLU → Linear(16) → ReLU → Linear(1) → Sigmoid
+```
+
+**737 parameters, 2,948 bytes.** Fits in WASM, edge devices, and embedded systems.
+
+## Input Features
+
+| # | Feature | Distribution | Description |
+|---|---------|-------------|-------------|
+| 0 | confidence | Uniform [0,1] | Agent confidence score |
+| 1 | activity | Poisson(5) | Activity rate |
+| 2 | drift_rate | Exponential(0.1) | Drift magnitude |
+| 3 | anomaly | Uniform [0,1] | Anomaly score |
+| 4 | time_since | Exponential(10) | Time since last check |
+
+## Escalation Rule
+
+The ground-truth escalation logic:
+```
+escalate = (confidence < 0.4 AND drift_rate > 0.15) OR anomaly > 0.8
+```
+
+With configurable noise for training robustness.
+
+## Installation
+
+```bash
+pip install plato-escalation-gate
+```
+
+## Quick Start
+
+```python
+import torch
+from plato_escalation_gate import EscalationGate, generate_escalation_data
+
+# Create and train
+gate = EscalationGate()
+X, y = generate_escalation_data(3000)
+
+optimizer = torch.optim.Adam(gate.parameters(), lr=0.01)
+criterion = torch.nn.BCELoss()
+
+for epoch in range(80):
+    optimizer.zero_grad()
+    loss = criterion(gate(X).squeeze(), y)
+    loss.backward()
+    optimizer.step()
+
+# Inference
+test = torch.FloatTensor([[0.3, 5, 0.2, 0.1, 15.0]])
+if gate.should_escalate(test):
+    print("🚨 Escalating to higher-level model")
+else:
+    print("✅ Situation handled locally")
+
+print(f"Model size: {gate.param_count} params ({gate.size_bytes} bytes)")
+```
+
+## License
+
+MIT
