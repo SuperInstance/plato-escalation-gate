@@ -1,0 +1,9 @@
+README.md
+pyproject.toml
+plato_escalation_gate/__init__.py
+plato_escalation_gate.egg-info/PKG-INFO
+plato_escalation_gate.egg-info/SOURCES.txt
+plato_escalation_gate.egg-info/dependency_links.txt
+plato_escalation_gate.egg-info/requires.txt
+plato_escalation_gate.egg-info/top_level.txt
+tests/test_escalation_gate.py
