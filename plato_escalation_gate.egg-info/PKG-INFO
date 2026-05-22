@@ -5,10 +5,12 @@ Summary: Tiny escalation decision gate — 737 params, 4KB, WASM-ready
 License: MIT
 Requires-Python: >=3.9
 Description-Content-Type: text/markdown
+License-File: LICENSE
 Requires-Dist: torch>=2.0
 Requires-Dist: numpy>=1.24
 Provides-Extra: dev
 Requires-Dist: pytest>=7.0; extra == "dev"
+Dynamic: license-file
 
 # plato-escalation-gate
 
